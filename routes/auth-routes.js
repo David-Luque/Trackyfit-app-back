@@ -73,12 +73,12 @@ authRoutes.post('/signup', (req, res, next) => {
 	const { username, password } = req.body;
 
 	if (!username || !password) {
-		res.status(400).json({ message: 'Provide username and password' });
+		res.status(400).send({ errorMessage: 'Provide username and password' });
 		return;
 	}
 
 	if (password < 4) {
-		res.status(400).json({ message: 'Please make your password bigger' });
+		res.status(400).send({ errorMessage: 'Please make your password bigger' });
 		return;
 	}
 	User.findOne({ username })
@@ -109,7 +109,7 @@ authRoutes.post('/login', (req, res, next) => {
 	passport.authenticate('local', (err, theUser, failureDetails) => {
 		if (err) {
 			console.log('error 75', err);
-			res.status(500).json({ message: 'Something went wrong authenticating user' });
+			res.status(500).send({ message: 'Something went wrong authenticating user' });
 			return;
 		}
 
@@ -117,7 +117,7 @@ authRoutes.post('/login', (req, res, next) => {
 			// "failureDetails" contains the error messages
 			// from our logic in "LocalStrategy" { message: '...' }.
 			console.log('error 83: no hay usuario');
-			res.status(401).json(failureDetails);
+			res.status(401).send(failureDetails);
 			return;
 		}
 
@@ -125,7 +125,7 @@ authRoutes.post('/login', (req, res, next) => {
 		req.login(theUser, (err) => {
 			if (err) {
 				console.log('91: hay usuario pero hay error');
-				res.status(500).json({ message: 'Session save went bad.' });
+				res.status(500).send({ message: 'Session save went bad.' });
 				return;
 			}
 			console.log('95', theUser);
@@ -144,15 +144,15 @@ authRoutes.post('/login', (req, res, next) => {
 
 authRoutes.post('/logout', (req, res, next) => {
 	req.logout();
-	res.status(200).json({ message: 'Log out success! ' });
+	res.status(200).send({ message: 'Log out success! ' });
 });
 
 authRoutes.get('/loggedin', (req, res, next) => {
 	if (req.isAuthenticated()) {
-		res.status(200).json(req.user);
+		res.status(200).send(req.user);
 		return;
 	}
-	res.status(403).json({ message: 'Unauthorized' });
+	res.status(403).send({ message: 'Unauthorized' });
 });
 
 module.exports = authRoutes;
