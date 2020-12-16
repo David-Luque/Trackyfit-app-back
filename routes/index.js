@@ -27,9 +27,11 @@ router.post('/add-metrics', (req, res)=>{
   Metrics.create({weight, shoulders, abs, cuadriceps, date, owner})
   .then((result)=>{
     console.log(result)
+    res.send(result)
   })
   .catch((err)=>{
     console.log(err)
+    res.send(result)
   })
 })
 
@@ -51,9 +53,12 @@ router.post('/create-exercise', (req, res)=>{
   Exercise.create({pushUps, pullUps, plank, squats, date, owner})
   .then((result)=>{
     console.log(result)
+    res.send(result)
   })
   .catch((err)=>{
     console.log(err)
+    res.send(err)
+    
   })
 })
 
@@ -62,10 +67,12 @@ router.post('/create-exercise', (req, res)=>{
 router.get('/getUser/:id', (req, res)=>{
   User.findById(req.params.id)
   .then((result)=>{
+    console.log(result)
     res.send(result)
   })
   .catch((err)=>{
     console.log(err)
+    res.send(err)
   })
 })
 
@@ -74,9 +81,11 @@ router.get('/getUser/:id', (req, res)=>{
 router.get('/all-users', (req, res)=>{
   User.find({})
   .then((result)=>{
+    console.log(result)
     res.send(result)
   })
   .catch((err)=>{
+    console.log(err)
     res.send(err)
   })
 })
