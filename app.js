@@ -42,7 +42,7 @@ app.use(flash());
 app.use(
 	cors({
 		credentials: true,
-		origin: [ "http://localhost:3001" ] //=> CAMBIAR POR EL ENLACE DE MI FRONTEND EN NETLIFY
+		origin: [ "http://localhost:3001", "https://trackifit.netlify.app" ] 
 	})
 );
 
