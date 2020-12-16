@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
-
+const cookieSession = require('cookie-session')
 require('dotenv').config();
 const logger = require('morgan');
 const hbs = require('hbs');
@@ -48,11 +48,24 @@ app.use(
 
 //4. Session configuration
 
+app.set('trust proxy', 1)
+app.use(cookieSession({
+    name:'session',
+    keys: ['key1', 'key2'],
+    sameSite: 'none',
+    secure: true
+}))
+
+
 app.use(
 	session({
-		secret: 'oscar_prueba',
+		secret: 'secret-again',
 		resave: true,
-		saveUninitialized: true
+		saveUninitialized: true,
+		cookie: {
+			sameSite: 'none',
+			secure: true
+		}
 	})
 );
 

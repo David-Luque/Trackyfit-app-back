@@ -69,16 +69,16 @@ const User = require('../models/User');
 // 	});
 // });
 
-authRoutes.post('/signup', (req, res, next) => {
+authRoutes.post('/signup', (req, res) => {
 	const { username, password } = req.body;
 
 	if (!username || !password) {
-		res.status(400).send({ errorMessage: 'Provide username and password' });
+		res.send({ errorMessage: 'Provide username and password' });
 		return;
 	}
 
 	if (password < 4) {
-		res.status(400).send({ errorMessage: 'Please make your password bigger' });
+		res.send({ errorMessage: 'Password must be longer' });
 		return;
 	}
 	User.findOne({ username })
@@ -92,18 +92,19 @@ authRoutes.post('/signup', (req, res, next) => {
 						};
 						User.create(newUser)
 							.then((result) => {
-								res.send({ message: 'Usuario creado con exito' });
+								res.send({ errorMessage: 'User successfully registered' });
 							});
 					});
 				});
 			} else {
-				res.send({ errorMessage: 'El username introducido ya existe' });
+				res.send({ errorMessage: 'Username already exist' });
 			}
 		})
 		.catch((err) => {
 			console.error(err);
 		});
 });
+
 
 authRoutes.post('/login', (req, res, next) => {
 	passport.authenticate('local', (err, theUser, failureDetails) => {
@@ -117,7 +118,7 @@ authRoutes.post('/login', (req, res, next) => {
 			// "failureDetails" contains the error messages
 			// from our logic in "LocalStrategy" { message: '...' }.
 			console.log('error 83: no hay usuario');
-			res.status(401).send(failureDetails);
+			res.send({message: 'Please, insert valid username and password'});
 			return;
 		}
 
