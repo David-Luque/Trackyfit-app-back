@@ -1,15 +1,16 @@
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const cookieSession = require('cookie-session')
+const bodyParser 			= require('body-parser');
+const cookieParser		= require('cookie-parser');
+const express 				= require('express');
+const cookieSession 	= require('cookie-session')
+const logger 					= require('morgan');
+const hbs 						= require('hbs');
+const path 						= require('path');
+const session 				= require('express-session');
+const passport 				= require('passport');
+const cors 						= require('cors');
+const flash 					= require('connect-flash');
 require('dotenv').config();
-const logger = require('morgan');
-const hbs = require('hbs');
-const path = require('path');
-const session = require('express-session');
-const passport = require('passport');
-const cors = require('cors');
-const flash = require('connect-flash');
+
 
 //1. Databse configuration
 const mongoose = require('mongoose');
@@ -21,7 +22,7 @@ mongoose
 		useUnifiedTopology: true,
 		useFindAndModify: false
 	})
-	.then((connection) => {
+	.then(() => {
 		console.log(`Connected to ${process.env.DB_NAME} !`);
 	})
 	.catch((err) => {
@@ -38,16 +39,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
 //3. Cors middleware
-
 app.use(
 	cors({
 		credentials: true,
-		origin: [ "http://localhost:3001", "https://trackifit.netlify.app" ] 
+		origin: ["https://trackifit.netlify.app" ] 
 	})
 );
 
 //4. Session configuration
-
 app.set('trust proxy', 1)
 app.use(cookieSession({
     name:'session',
@@ -55,8 +54,6 @@ app.use(cookieSession({
     sameSite: 'none',
     secure: true
 }))
-
-
 app.use(
 	session({
 		secret: 'secret-again',
