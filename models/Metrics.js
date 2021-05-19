@@ -8,6 +8,8 @@ const metricSchema = new Schema({
   cuadriceps: {type: Number},
   date: {type: String},
   owner: {type: Schema.Types.ObjectId, ref: 'User'}
+}, {
+  timestamps: true
 })
 
 // const data = new Schema ({

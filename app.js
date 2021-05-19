@@ -1,52 +1,32 @@
+require('dotenv').config();
 const bodyParser 			= require('body-parser');
 const cookieParser		= require('cookie-parser');
 const express 				= require('express');
 const cookieSession 	= require('cookie-session')
 const logger 					= require('morgan');
-const hbs 						= require('hbs');
 const path 						= require('path');
 const session 				= require('express-session');
 const passport 				= require('passport');
 const cors 						= require('cors');
 const flash 					= require('connect-flash');
-require('dotenv').config();
 
-
-//1. Databse configuration
-const mongoose = require('mongoose');
-
-mongoose
-	.connect(`mongodb+srv://david_lq_lb:${process.env.DB_PASS}@cluster0.algat.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, {
-		useCreateIndex: true,
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useFindAndModify: false
-	})
-	.then(() => {
-		console.log(`Connected to ${process.env.DB_NAME} !`);
-	})
-	.catch((err) => {
-		console.log('error connecting to Mongo: ', err);
-	});
+//Imported Configs
+require('./configs/database-config');
+require('./configs/passport-config');
+// ---- require('./configs/cloudinary-config');  --- !!
 
 const app = express();
 
-//2. Middleware setup
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+//Middleware setup
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
-//3. Cors middleware
-app.use(
-	cors({
-		credentials: true,
-		origin: ["https://trackifit.netlify.app" ] 
-	})
-);
 
-//4. Session configuration
+//Session config
 app.set('trust proxy', 1)
 app.use(cookieSession({
     name:'session',
@@ -54,30 +34,34 @@ app.use(cookieSession({
     sameSite: 'none',
     secure: true
 }))
-app.use(
-	session({
-		secret: 'secret-again',
-		resave: true,
-		saveUninitialized: true,
-		cookie: {
-			sameSite: 'none',
-			secure: true
-		}
-	})
-);
+app.use(session({
+	secret: 'secret-again',
+	resave: true,
+	saveUninitialized: true,
+	cookie: {
+		sameSite: 'none',
+		secure: true
+	}
+}));
 
-//5. Passport configuration
-require('./config/passportConfig');
-
-//6. Middleware passport
+//Middleware passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-//7. Routes
-const index = require('./routes/index');
-app.use('/', index);
+//Cors middleware
+app.use(
+	cors({
+		credentials: true,
+		origin: ["https://trackifit.netlify.app" ] 
+	})
+);
 
-const authRoutes = require('./routes/auth-routes');
-app.use('/', authRoutes);
+//Routes
+app.use('/', require('./routes/index'));
+app.use('/', require('./routes/auth-routes'));
+
+// app.use((req, res, next)=>{
+// 	res.sendFile(__dirname + "/public/index.html")
+// })
 
 module.exports = app;

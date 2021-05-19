@@ -5,9 +5,7 @@ const Exercise  = require('../models/Exercise');
 const router    = express.Router();
 
 
-router.get('/', (req, res, next) => {
-  res.send('Hello world!')
-});
+//router.get('/', (req, res, next) => {});
 
 router.get("/get-all-metrics/:id", (req, res)=>{
   Metrics.find({owner: req.params.id})
@@ -29,7 +27,6 @@ router.post('/add-metrics', (req, res)=>{
     res.send(err)
   })
 })
-
 
 router.get("/get-all-exercises/:id", (req, res)=>{
   Exercise.find({owner: req.params.id})
