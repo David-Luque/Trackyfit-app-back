@@ -52,7 +52,7 @@ app.use(passport.session());
 app.use(
 	cors({
 		credentials: true,
-		origin: ["https://trackifit.netlify.app" ] 
+		origin: [process.env.FRONTEND_POINT, "http://localhost:3000" ] 
 	})
 );
 
