@@ -41,7 +41,7 @@ app.use(flash());
 // }))
 
 app.use(session({
-	secret: 'my-secret-resecret',
+	secret: 'my-requetesecret',
 	resave: true,
 	saveUninitialized: true,
 	// cookie: {
@@ -66,8 +66,8 @@ app.use(
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/auth-routes'));
 
-// app.use((req, res, next)=>{
-// 	res.sendFile(__dirname + "/public/index.html")
-// })
+app.use((req, res, next)=>{
+	res.sendFile(__dirname + "/public/index.html")
+})
 
 module.exports = app;

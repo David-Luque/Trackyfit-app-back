@@ -1,7 +1,7 @@
 const express   = require('express');
 const User      = require('../models/User');
-const Metrics   = require('../models/Metrics');
-const Exercise  = require('../models/Exercise');
+const Metrics   = require('../models/aesthetic_models/Metric');
+const Exercise  = require('../models/performance_models/Exercise');
 const router    = express.Router();
 
 
