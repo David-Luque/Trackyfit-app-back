@@ -66,6 +66,7 @@ app.use(
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/auth-routes'));
 app.use('/', require('./routes/exercise-routes'));
+app.use('/', require('./routes/results-routes'));
 
 
 app.use((req, res, next)=>{

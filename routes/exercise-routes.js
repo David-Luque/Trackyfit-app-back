@@ -36,6 +36,18 @@ router.put('/edit-exercise/:id', (req, res, next)=>{
   .catch(err => res.json(err));
 });
 
+router.delete('/exercises/:id', (req, res, next)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({ message: "Specified 'id' is not valid" });
+  };
+
+  Exercise.findByIdAndRemove(req.params.id)
+  .then(()=>{
+    res.json({ message: `Project with id: ${req.params.id} is removed successfully` })
+  })
+  .catch(err => res.json(err))
+});
+
 
 router.get('/exercises/:id', (req, res, next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
