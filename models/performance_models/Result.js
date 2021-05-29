@@ -11,4 +11,4 @@ const resultSchema = new Schema({
 
 const Result = mongoose.model('Result', resultSchema);
 
-module.esports = Result;
+module.exports = Result;
