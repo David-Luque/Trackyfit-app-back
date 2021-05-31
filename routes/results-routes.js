@@ -19,7 +19,11 @@ router.post('/create-results', (req, res, next)=>{
     return Exercise.findByIdAndUpdate(req.body.exercise, {
       $push: {results: response._id}
     })
-    .then(theResponse => res.json(theResponse))
+    .then(theResponse => {
+      console.log('Push result id to exercise!!')
+      console.log(theResponse)
+      res.json(theResponse)
+    })
   })
   .catch(err => res.json(err))
 });

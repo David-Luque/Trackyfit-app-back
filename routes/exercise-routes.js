@@ -57,7 +57,13 @@ router.get('/exercises/:id', (req, res, next)=>{
   Exercise.findById(req.params.id)
   .populate('results')
   .then(theExercise => {
-    //console.log(theExercise)
+    const resultsCopy = [...theExercise.results]
+    const sortResults = resultsCopy.sort((a, b)=>{
+      return new Date(a.date) - new Date(b.date);
+    });
+    theExercise.results = sortResults;
+    
+    console.log(theExercise)
     res.status(200).json(theExercise)
   })
   .catch(err => res.json(err))
