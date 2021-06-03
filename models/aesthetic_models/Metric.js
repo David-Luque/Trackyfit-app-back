@@ -3,7 +3,8 @@ const Schema = mongoose.Schema
 
 const metricSchema = new Schema({
   name: {type: String, required: true},
-  measures: [{type: Schema.Types.ObjectId, ref: 'Measurement'}],
+  unit: {type: String, required: true},
+  measures: [{type: Schema.Types.ObjectId, ref: 'Measure'}],
   owner: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
