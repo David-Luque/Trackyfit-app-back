@@ -20,8 +20,7 @@ router.post('/create-results', (req, res, next)=>{
       $push: {results: response._id}
     })
     .then(theResponse => {
-      console.log('Push result id to exercise!!')
-      console.log(theResponse)
+      //console.log(theResponse)
       res.json(theResponse)
     })
   })

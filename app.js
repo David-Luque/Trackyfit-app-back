@@ -69,6 +69,7 @@ app.use('/', require('./routes/exercise-routes'));
 app.use('/', require('./routes/result-routes'));
 app.use('/', require('./routes/workout-routes'));
 app.use('/', require('./routes/metrics-routes'));
+app.use('/', require('./routes/measures-routes'));
 
 
 app.use((req, res, next)=>{
