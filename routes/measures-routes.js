@@ -6,10 +6,8 @@ const Metric = require('../models/aesthetic_models/Metric');
 
 router.post('/measure', (req, res, next)=>{
   
-  console.log(req.body)
   const { quantity, date, metric } = req.body.theMeasure;
   const quantityNumber = Number(quantity);
-  //console.log(typeof quantityNumber)
 
   Measure.create({ 
     quantity: quantityNumber, 

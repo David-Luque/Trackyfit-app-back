@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const mongoose = require('mongoose');
 const Result = require('../models/performance_models/Result');
 const Exercise = require('../models/performance_models/Exercise');
 
@@ -20,7 +20,6 @@ router.post('/create-results', (req, res, next)=>{
       $push: {results: response._id}
     })
     .then(theResponse => {
-      //console.log(theResponse)
       res.json(theResponse)
     })
   })

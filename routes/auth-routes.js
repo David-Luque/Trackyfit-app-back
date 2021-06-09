@@ -50,7 +50,6 @@ authRoutes.post('/signup', (req, res) => {
 					res.status(500).json({ message: "Error login after signup" });
 					return;
 				};
-
 				res.status(200).json(newUser)
 			});
 		});

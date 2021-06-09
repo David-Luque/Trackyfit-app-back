@@ -8,6 +8,6 @@ const metricSchema = new Schema({
   owner: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
-const Metric = mongoose.model('Metric', metricSchema)
+const Metric = mongoose.model('Metric', metricSchema);
 
 module.exports = Metric;

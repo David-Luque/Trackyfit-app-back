@@ -5,14 +5,7 @@ const Metric = require('../models/aesthetic_models/Metric');
 const Measure = require('../models/aesthetic_models/Measure');
 
 
-router.get('/all-metrics', (req, res, next)=>{
-  Metric.find({ owner: req.user._id })
-  .then(response => res.json(response))
-  .catch(err => res.json(err))
-});
-
-
-router.post('/create-metric', (req, res, next)=>{
+router.post('/metrics', (req, res, next)=>{
   Metric.create({
     name: req.body.name,
     unit: req.body.unit,
@@ -21,6 +14,12 @@ router.post('/create-metric', (req, res, next)=>{
   })
   .then(response => res.json(response))
   .catch(err => res.json(err));
+});
+
+router.get('/metrics', (req, res, next)=>{
+  Metric.find({ owner: req.user._id })
+  .then(response => res.json(response))
+  .catch(err => res.json(err))
 });
 
 router.get('/metrics/:id', (req, res, next)=>{
@@ -42,6 +41,18 @@ router.get('/metrics/:id', (req, res, next)=>{
   .catch(err => res.json(err))
 });
 
+router.put('/metrics/:id', (req, res, next)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({ message: "Specified 'id' is not valid" });
+  };
+
+  Metric.findByIdAndUpdate(req.params.id, req.body)
+  .then(() => {
+    res.json({ message: `Metric with id ${req.params.id} was successfully updated` })
+  })
+  .catch(err => res.json(err))
+});
+
 router.delete('/metrics/:id', (req, res, next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({ message: "Specified 'id' is not valid" });
@@ -53,23 +64,6 @@ router.delete('/metrics/:id', (req, res, next)=>{
   })
   .catch(err => res.json(err))
 });
-
-// router.put('/edit-exercise/:id', (req, res, next)=>{
-//   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
-//     res.status(400).json({ message: "Specified 'id' is not valid" });
-//   };
-//   console.log(req.body)
-  
-//   Exercise.findByIdAndUpdate(req.params.id, req.body)
-//   .then(() => {
-//     //console.log(response)
-//     res.json({ message: `Exercise with id: ${req.params.id} was successfully updated` })
-//   })
-//   .catch(err => res.json(err));
-// });
-
-
-
 
 
 
