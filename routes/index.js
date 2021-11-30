@@ -4,6 +4,7 @@ const Metrics   = require('../models/aesthetic_models/Metric');
 const Exercise  = require('../models/performance_models/Exercise');
 const router    = express.Router();
 
+router.get('/', () => "Hello worldlol!!");
 
 //router.get('/', (req, res, next) => {});
 
