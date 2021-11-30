@@ -58,7 +58,7 @@ app.use(passport.session());
 app.use(
 	cors({
 		credentials: true,
-		origin: [process.env.FRONTEND_POINT, "http://localhost:3000" ] 
+		origin: process.env.FRONTEND_POINT
 	})
 );
 
