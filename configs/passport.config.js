@@ -2,7 +2,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User = require('../models/User');
-const session = require('express-session');
 
 passport.serializeUser((user, next) => {
 	next(null, user._id);
