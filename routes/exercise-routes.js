@@ -6,6 +6,7 @@ const Result = require('../models/performance_models/Result');
 
 
 router.post('/create-exercise', (req, res, next)=>{
+  console.log(req)
   Exercise.create({
     name: req.body.name,
     owner: req.user._id,
