@@ -65,12 +65,12 @@ app.use(
 
 //Routes
 app.use('/', require('./routes/index'));
-app.use('/', require('./routes/auth-routes'));
-app.use('/', require('./routes/exercise-routes'));
-app.use('/', require('./routes/result-routes'));
-app.use('/', require('./routes/workout-routes'));
-app.use('/', require('./routes/metrics-routes'));
-app.use('/', require('./routes/measures-routes'));
+app.use('/', require('./routes/auth'));
+app.use('/', require('./routes/exercise'));
+app.use('/', require('./routes/result'));
+app.use('/', require('./routes/workout'));
+app.use('/', require('./routes/metrics'));
+app.use('/', require('./routes/measures'));
 
 
 app.use((req, res, next)=>{
