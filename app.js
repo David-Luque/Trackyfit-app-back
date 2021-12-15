@@ -1,5 +1,5 @@
 require('dotenv').config({ path: 'vars.env' });
-const express 				= require('express');
+const express 					= require('express');
 //const bodyParser 			= require('body-parser');
 //const cookieParser		= require('cookie-parser');
 // const cookieSession 	= require('cookie-session')
@@ -7,11 +7,12 @@ const express 				= require('express');
 //const path 						= require('path');
 //const session 				= require('express-session');
 //const passport 				= require('passport');
-const cors 						= require('cors');
+const cors 							= require('cors');
 //const flash 					= require('connect-flash');
+const connectToDB = require('./configs/database.config');
 
 //Imported Configs
-require('./configs/database.config');
+connectToDB();
 require('./configs/passport.config');
 require('./configs/cloudinary.config');
 
@@ -20,6 +21,15 @@ require('./configs/cloudinary.config');
 
 
 const app = express();
+
+//Cors middleware
+app.options('*', cors());
+app.use(
+	cors({
+		credentials: true,
+		origin: process.env.FRONTEND_POINT
+	})
+);
 
 //MIDDLEWARE SETUP
 //app.use(logger('dev'));
@@ -54,14 +64,7 @@ app.use(express.json({ extended: true }));
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-//Cors middleware
-app.options('*', cors());
-app.use(
-	cors({
-		credentials: true,
-		origin: process.env.FRONTEND_POINT
-	})
-);
+
 
 //Routes
 app.use('/', require('./routes/index'));
