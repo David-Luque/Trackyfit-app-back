@@ -12,43 +12,13 @@ authRouter.post('/signup', [
 ], authController.signUp
 );
 
+authRouter.post('/login', [
+	check('email', 'Provide a valid email').isEmail()
+], authController.userAuthentication);
 
-authRouter.post('/login', (req, res, next) => {
-	passport.authenticate('local', (err, theUser, failureDetails) => {
-		if (err) {
-			res.status(500).json({ message: 'Something went wrong while authenticating user' });
-			return;
-		}
+authRouter.get('/loggedin', authController.authenticatedUser);
 
-		if (!theUser) {
-			res.status(401).json({ failureDetails });
-			return;
-		}
-
-		req.login(theUser, (err) => {
-			if (err) {
-				res.status(500).json({ message: 'Session save went bad.' });
-				return;
-			}
-			res.status(200).json(theUser);
-		});
-	})(req, res, next);
-});
-
-
-authRouter.post('/logout', (req, res, next) => {
-	req.logout();
-	res.status(200).json({ message: 'Log out success! ' });
-});
-
-
-authRouter.get('/loggedin', (req, res, next)=>{
-  if(req.isAuthenticated()){
-    res.status(200).json(req.user);
-    return;
-  };
-  res.status(403).json({ message: 'Unauthorized' });
-});
+authRouter.post('/logout', authController.userLogout);
 
 
 module.exports = authRouter;
