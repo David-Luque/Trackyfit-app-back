@@ -70,7 +70,7 @@ app.use(express.json({ extended: true }));
 //app.use('/', require('./routes/index'));
 app.use('/', require('./routes/auth'));
 app.use('/api/exercises', require('./routes/exercise'));
-app.use('/', require('./routes/result'));
+app.use('/api/results', require('./routes/result'));
 app.use('/', require('./routes/workout'));
 app.use('/', require('./routes/metrics'));
 app.use('/', require('./routes/measures'));
