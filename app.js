@@ -67,9 +67,9 @@ app.use(express.json({ extended: true }));
 
 
 //Routes
-app.use('/', require('./routes/index'));
+//app.use('/', require('./routes/index'));
 app.use('/', require('./routes/auth'));
-app.use('/', require('./routes/exercise'));
+app.use('/api/exercises', require('./routes/exercise'));
 app.use('/', require('./routes/result'));
 app.use('/', require('./routes/workout'));
 app.use('/', require('./routes/metrics'));
