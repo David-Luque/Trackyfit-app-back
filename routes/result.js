@@ -14,17 +14,28 @@ router.post('/',
   resultController.createResult
 );
 
-//route to get all results or populate exercise results??
-router.get();
+//route to get all results
+//remove '.populate' in exercise route?
+router.get('/', 
+  auth, 
+  resultController.getResults
+);
 
 //route to get all data for specific result instead of get all info from all results in route above?
 //In that case, in route above only provide minimal info for display overview info of exercise results
 
+
 //update result
-router.put('/:id', auth, [], resultController.editResult);
+router.put('/:id', 
+  auth, 
+  resultController.editResult
+);
 
 //delete result
-router.delete('/:id', auth, resultController.deleteResult);
+router.delete('/:id',
+  auth, 
+  resultController.deleteResult
+);
 
 
 module.exports = router;

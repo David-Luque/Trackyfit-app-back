@@ -102,7 +102,7 @@ exports.editExercise = async (req, res)=>{
 
 };
 
-exports.deleteExercise = (req, res)=>{
+exports.deleteExercise = async (req, res)=>{
   
 
   Exercise.findByIdAndRemove(req.params.id)
