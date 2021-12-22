@@ -54,19 +54,6 @@ exports.findExercise = async (req, res)=>{
     console.log(err);
     res.status(500).send("There was an error while getting exercise data")
   };
-
-  // Exercise.findById(req.params.id)
-  // .populate('results')
-  // .then(theExercise => {
-  //   const resultsCopy = [...theExercise.results]
-  //   const sortResults = resultsCopy.sort((a, b)=>{
-  //     return new Date(a.date) - new Date(b.date);
-  //   });
-  //   theExercise.results = sortResults;
-    
-  //   res.status(200).json(theExercise)
-  // })
-  // .catch(err => res.json(err))
 };
 
 exports.editExercise = async (req, res)=>{

@@ -72,7 +72,7 @@ app.use('/', require('./routes/auth'));
 app.use('/api/exercises', require('./routes/exercise'));
 app.use('/api/results', require('./routes/result'));
 app.use('/', require('./routes/workout'));
-app.use('/', require('./routes/metrics'));
+app.use('/api/metrics', require('./routes/metrics'));
 app.use('/', require('./routes/measures'));
 
 
