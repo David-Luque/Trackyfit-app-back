@@ -19,13 +19,13 @@ exports.createResult = async (req, res)=>{
     const result = new Result(req.body);
     await result.save();
 
-    await Exercise.findByIdAndUpdate(req.body.exercise, { $push: { results: result._id } })
+    await Exercise.findByIdAndUpdate(exercise, { $push: { results: result._id } })
 
     res.json({ result });
 
   } catch (err) {
     console.log(err);
-    res.status(500).send('There was an error while creating')
+    res.status(500).send('There was an error while creating result')
   }
 };
 

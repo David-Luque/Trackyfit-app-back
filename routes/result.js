@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const resultController = require('../controllers/resultController');
-//const mongoose = require('mongoose');
 const { check } = require('express-validator');
 
 
