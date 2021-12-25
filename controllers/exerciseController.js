@@ -17,14 +17,6 @@ exports.createExercise = async (req, res)=>{
     console.log(err);
     res.status(500).send("There was an error while creating exercise");
   }
-
-  Exercise.create({
-    name: req.body.name,
-    owner: req.user._id,
-    results: []
-  })
-  .then(response => res.json(response))
-  .catch(err => res.json(err));
 };
 
 exports.getExercises = async (req, res)=>{

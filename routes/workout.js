@@ -1,23 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+const auth = require('../middleware/auth');
 const Workout = require('../models/performance_models/Workout');
+const workoutController = require('../controllers/workoutController');
 
-router.get('/all-workouts', (req, res, next)=>{
+router.post('/', 
+  auth, 
+  [
+    check('name', 'Must provide a valid name').not().isEmpty()
+  ], 
+  workoutController.createWorkout
+);
+
+router.get('/', (req, res, next)=>{
 
   Workout.find({ owner: req.user._id })
   .then(response => res.json(response))
   .catch(err => console.log(err))
 });
 
-router.post('/workouts', (req, res, next)=>{
-  
-  Workout.create({
-    name: req.body.name,
-    date: req.body.date,
-    data: [],
-    owner: req.user._id
-  })
-});
+
 
 module.exports = router;
