@@ -4,49 +4,36 @@ const auth = require('../middleware/auth');
 const measureController = require('../controllers/measureController');
 const { check } = require('express-validator');
 
-router.post('/', (req, res, next)=>{
-  
-  const { quantity, date, metric } = req.body.theMeasure;
-  const quantityNumber = Number(quantity);
-
-  Measure.create({ 
-    quantity: quantityNumber, 
-    date, 
-    metric 
-  })
-  .then(response => {
-    //console.log(response)
-    return Metric.findByIdAndUpdate(metric, { $push: {measures: response._id} })
-    .then(theResponse => {
-      res.json(theResponse)
-    })
-    .catch(err => res.json(err))
-  })
-  .catch(err => res.json(err))
-});
-
-
-//route to get all results
-//remove '.populate' in exercise route?
-router.get('/', 
+router.post('/', 
   auth, 
-  resultController.getResults
+  [
+    check('quantity', 'Must provide a valid "quantity" value').not().isEmpty()
+  ], 
+  measureController.createMeasure
 );
 
-//route to get all data for specific result instead of get all info from all results in route above?
-//In that case, in route above only provide minimal info for display overview info of exercise results
+
+//route to get all measures
+//remove '.populate' in metric route?
+router.get('/', 
+  auth, 
+  resultController.getMeasures
+);
+
+//route to get all data for specific measure instead of get all info from all measures in route above?
+//In that case, in route above only provide minimal info for display overview info of metric measures
 
 
 //update result
 router.put('/:id', 
   auth, 
-  resultController.editResult
+  resultController.editMeasure
 );
 
 //delete result
 router.delete('/:id',
   auth, 
-  resultController.deleteResult
+  resultController.deleteMeasure
 );
 
 

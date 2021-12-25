@@ -35,8 +35,8 @@ exports.getMeasures = async (req, res)=>{
     const { metric } = req.body
 
     const metricDB = await Metric.findById(metric);
+    
     if(!metricDB) res.status(404).json({ msg: 'Metric not found' });
-
     if(metricDB.owner.toString() !== req.user.id) res.status(401).json({ msg: 'Unauthorized' });
 
     const measures = await Measure.find({ metric }).sort({ date: -1 });
