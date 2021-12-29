@@ -20,3 +20,17 @@ exports.createWorkout = async (req, res)=>{
     res.status(500).json({ msg: 'There was an error while createing workout' });
   }
 };
+
+
+exports.getWorkouts = async (req, res)=>{
+  
+};
+
+
+exports.findWorkout = ()=>{};
+
+
+exports.editWorkout = ()=>{};
+
+
+exports.deleteWorkout = ()=>{};

@@ -19,6 +19,12 @@ router.get('/', (req, res, next)=>{
   .catch(err => console.log(err))
 });
 
+router.get('/:id', auth, workoutController.findWorkout);
+
+router.put('/:id', auth, workoutController.editWorkout);
+
+router.delete('/:id', auth, workoutController.deleteWorkout);
+
 
 
 module.exports = router;

@@ -1,8 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const router = express.Router();
-const Exercise = require('../models/performance_models/Exercise');
-//const Result = require('../models/performance_models/Result');
 const exerciseController = require('../controllers/exerciseController');
 const { check } = require('express-validator');
 const auth = require('../middleware/auth');

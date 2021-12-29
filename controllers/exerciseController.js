@@ -1,5 +1,6 @@
 const Exercise = require('../models/performance_models/Exercise');
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 exports.createExercise = async (req, res)=>{
 
@@ -13,6 +14,7 @@ exports.createExercise = async (req, res)=>{
     exercise.owner = req.user.id;
     await exercise.save();
     res.json({ exercise });
+
   } catch (err) {
     console.log(err);
     res.status(500).send("There was an error while creating exercise");
@@ -42,6 +44,7 @@ exports.findExercise = async (req, res)=>{
     });
     theExercise.results = resultsCopy;
     res.status(200).json(theExercise);
+
   } catch (err) {
     console.log(err);
     res.status(500).send("There was an error while getting exercise data")
@@ -49,7 +52,6 @@ exports.findExercise = async (req, res)=>{
 };
 
 exports.editExercise = async (req, res)=>{
-
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({ message: "Specified 'id' is not valid" });
   };
@@ -60,7 +62,7 @@ exports.editExercise = async (req, res)=>{
   }
   
   try {
-    let exercise = await Exercises.findById(req.params.id);
+    let exercise = await Exercise.findById(req.params.id);
 
     if(!exercise) res.status(404).json({ msg: 'Exercise not found' });
     if(exercise.owner.toString() !== req.user.id) res.status(401).json({ msg: "Unauthorized" });
@@ -69,9 +71,8 @@ exports.editExercise = async (req, res)=>{
     const newExercise = {};
     if(name) newExercise.name = name;
 
-    exercise = await Exercise.findByIdAndUpdate(req.params.id, { $set: newExercise }, { new: true })
-
-    res.json({ exercise });
+    exercise = await Exercise.findByIdAndUpdate(req.params.id, { $set: newExercise }, { new: true });
+    res.status(200).json(exercise);
 
   } catch (err) {
     console.log(err);
@@ -82,15 +83,6 @@ exports.editExercise = async (req, res)=>{
 };
 
 exports.deleteExercise = async (req, res)=>{
-  
-
-  Exercise.findByIdAndRemove(req.params.id)
-  .then(()=>{
-    res.json({ message: `Project with id: ${req.params.id} is removed successfully` })
-  })
-  .catch(err => res.json(err))
-
-
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({ message: "Specified 'id' is not valid" });
   };

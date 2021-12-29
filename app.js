@@ -11,6 +11,8 @@ const cors 							= require('cors');
 //const flash 					= require('connect-flash');
 const connectToDB = require('./configs/database.config');
 
+const app = express();
+
 //Imported Configs
 connectToDB();
 require('./configs/passport.config');
@@ -18,9 +20,6 @@ require('./configs/cloudinary.config');
 
 //const app_name = require('./package.json').name;
 //const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
-
-
-const app = express();
 
 //Cors middleware
 app.options('*', cors());

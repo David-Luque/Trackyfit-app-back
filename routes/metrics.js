@@ -1,10 +1,7 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const metricController = require('../controllers/metricController');
-const Metric = require('../models/aesthetic_models/Metric');
-const Measure = require('../models/aesthetic_models/Measure');
 const { check } = require('express-validator');
 
 router.post('/', 
@@ -21,15 +18,16 @@ router.get('/',
   metricController.getMetrics
 );
 
-router.get('/:id', (req, res, next)=>{
-  
-});
+router.get('/:id', 
+  auth, 
+  metricController.searchMetric
+);
 
 router.put('/:id', 
   auth, 
   [
-    check(),
-    check()
+    check('name', 'Must provide a valid measure name').not().isEmpty(),
+    check('unit', 'Must provide a valid measure unit').not().isEmpty()
   ], 
   metricController.editMetric
 );

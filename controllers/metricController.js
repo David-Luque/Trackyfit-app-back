@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const Metric = require('../models/aesthetic_models/Metric');
+const mongoose = require('mongoose');
 
 exports.createMetric = async (req, res)=>{
   
@@ -9,9 +10,7 @@ exports.createMetric = async (req, res)=>{
   try {
     const metric = new Metric(req.body);
     metric.owner = req.user.id;
-
     await metric.save();
-
     res.json({ metric });
 
   } catch (err) {
@@ -56,6 +55,11 @@ exports.editMetric = async (req, res)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({ message: "Specified 'id' is not valid" });
   };
+
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+  }
 
   try {
     let metric = await Metric.findById(req.params.id);
