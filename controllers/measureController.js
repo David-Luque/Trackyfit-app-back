@@ -1,6 +1,7 @@
 const Measure = require('../models/aesthetic_models/Measure');
 const Metric = require('../models/aesthetic_models/Metric');
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 exports.createMeasure = async (req, res)=>{
   
@@ -21,7 +22,7 @@ exports.createMeasure = async (req, res)=>{
 
     await Metric.findByIdAndUpdate(metric, { $push: { measures: measure._id } })
 
-    res.json({ measure });
+    res.json(measure);
 
   } catch (err) {
     console.log(err);
@@ -52,6 +53,15 @@ exports.getMeasures = async (req, res)=>{
 };
 
 exports.editMeasure = async (req, res)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({ message: "Specified 'id' is not valid" });
+  };
+
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+  }
+
   try {
     const { quantity, metric } = req.body;
 
@@ -73,6 +83,9 @@ exports.editMeasure = async (req, res)=>{
 };
 
 exports.deleteMeasure = async (req, res)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({ message: "Specified 'id' is not valid" });
+  };
 
   try {
     const { metric } = req.body;

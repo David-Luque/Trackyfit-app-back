@@ -1,6 +1,7 @@
 const Result = require('../models/performance_models/Result');
 const Exercise = require('../models/performance_models/Exercise');
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 exports.createResult = async (req, res)=>{
   
@@ -21,7 +22,7 @@ exports.createResult = async (req, res)=>{
 
     await Exercise.findByIdAndUpdate(exercise, { $push: { results: result._id } })
 
-    res.json({ result });
+    res.json(result);
 
   } catch (err) {
     console.log(err);
@@ -35,8 +36,8 @@ exports.getResults = async (req, res)=>{
     const { exercise } = req.body
 
     const exerciseDB = await Exercise.findById(exercise);
-    if(!exerciseDB) res.status(404).json({ msg: 'Exercise not found' });
 
+    if(!exerciseDB) res.status(404).json({ msg: 'Exercise not found' });
     if(exerciseDB.owner.toString() !== req.user.id) res.status(401).json({ msg: 'Unauthorized' });
 
     const results = await Results.find({ exercise }).sort({ createdAt: -1 });
@@ -52,6 +53,15 @@ exports.getResults = async (req, res)=>{
 };
 
 exports.editResult = async (req, res)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({ message: "Specified 'id' is not valid" });
+  };
+
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+  }
+
   try {
     const { reps, time, weight, exercise } = req.body;
 
@@ -75,6 +85,9 @@ exports.editResult = async (req, res)=>{
 };
 
 exports.deleteResult = async (req, res)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({ message: "Specified 'id' is not valid" });
+  };
 
   try {
     const { exercise } = req.body;

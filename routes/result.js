@@ -26,7 +26,12 @@ router.get('/',
 
 //update result
 router.put('/:id', 
-  auth, 
+  auth,
+  [
+    check('reps', 'Must provide a valid "reps" value').not().isEmpty(),
+    check('time', 'Must provide a valid "time" value').not().isEmpty(),
+    check('weight', 'Must provide a valid "weight" value').not().isEmpty()
+  ],
   resultController.editResult
 );
 

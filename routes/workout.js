@@ -12,14 +12,15 @@ router.post('/',
   workoutController.createWorkout
 );
 
-router.get('/', (req, res, next)=>{
+router.get('/', 
+  auth, 
+  workoutController.getWorkouts
+);
 
-  Workout.find({ owner: req.user._id })
-  .then(response => res.json(response))
-  .catch(err => console.log(err))
-});
-
-router.get('/:id', auth, workoutController.findWorkout);
+router.get('/:id', 
+  auth, 
+  workoutController.findWorkout
+);
 
 router.put('/:id', auth, workoutController.editWorkout);
 

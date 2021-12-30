@@ -27,6 +27,9 @@ router.get('/',
 //update result
 router.put('/:id', 
   auth, 
+  [
+    check('quantity', 'Must provide a valid quantity value').not().isEmpty()
+  ],
   resultController.editMeasure
 );
 
