@@ -18,13 +18,23 @@ router.get('/',
 );
 
 router.get('/:id', 
-  auth, 
+  auth,
   workoutController.findWorkout
 );
 
-router.put('/:id', auth, workoutController.editWorkout);
+router.put('/:id',
+  auth, 
+  [
+    check('name', 'Must provide a valid name value').not().isEmpty(),
+    check('data', 'Must provide a valid data input').not().isEmpty()
+  ],
+  workoutController.editWorkout
+);
 
-router.delete('/:id', auth, workoutController.deleteWorkout);
+router.delete('/:id', 
+  auth, 
+  workoutController.deleteWorkout
+);
 
 
 
