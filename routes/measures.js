@@ -17,7 +17,7 @@ router.post('/',
 //remove '.populate' in metric route?
 router.get('/', 
   auth, 
-  resultController.getMeasures
+  measureController.getMeasures
 );
 
 //route to get all data for specific measure instead of get all info from all measures in route above?
@@ -30,13 +30,13 @@ router.put('/:id',
   [
     check('quantity', 'Must provide a valid quantity value').not().isEmpty()
   ],
-  resultController.editMeasure
+  measureController.editMeasure
 );
 
 //delete result
 router.delete('/:id',
   auth, 
-  resultController.deleteMeasure
+  measureController.deleteMeasure
 );
 
 

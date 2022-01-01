@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const Workout = require('../models/performance_models/Workout');
+const { check } = require('express-validator');
 const workoutController = require('../controllers/workoutController');
 
 router.post('/', 
