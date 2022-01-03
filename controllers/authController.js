@@ -39,9 +39,9 @@ exports.signUp = async(req, res)=>{
       expiresIn: 7200 //2h
     }, (err, token)=>{
       if(err) throw err;
-
       res.json(token);
-    })
+    });
+
   } catch(err) {
     console.log(err);
     res.status(400).send('There was an error while creating user')
@@ -107,12 +107,6 @@ exports.userAuthentication = async (req, res)=>{
 };
 
 exports.authenticatedUser = async (req, res)=>{
-  // if(req.isAuthenticated()){
-  //   res.status(200).json(req.user);
-  //   return;
-  // };
-  // res.status(403).json({ message: 'Unauthorized' });
-
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.json({ user });

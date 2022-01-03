@@ -3,6 +3,7 @@ const authRouter 	= express.Router();
 const { check } = require('express-validator');
 //const passport 		= require('passport');
 const authController = require('../controllers/authController');
+const auth = require('../middleware/auth');
 
 
 authRouter.post('/signup', 
@@ -21,7 +22,10 @@ authRouter.post('/login',
 	authController.userAuthentication
 );
 
-authRouter.get('/loggedin', authController.authenticatedUser);
+authRouter.get('/loggedin', 
+	auth, 
+	authController.authenticatedUser
+);
 
 authRouter.post('/logout', authController.userLogout);
 
