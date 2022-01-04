@@ -1,12 +1,12 @@
 const express 		= require('express');
-const authRouter 	= express.Router();
+const router 	= express.Router();
 const { check } = require('express-validator');
 //const passport 		= require('passport');
 const authController = require('../controllers/authController');
 const auth = require('../middleware/auth');
 
 
-authRouter.post('/signup', 
+router.post('/signup', 
 	[
 		check('username', 'Username is required').not().isEmpty(),
 		check('email', 'Provide a valid email').isEmail(),
@@ -15,19 +15,17 @@ authRouter.post('/signup',
 	authController.signUp
 );
 
-authRouter.post('/login', 
+router.post('/login', 
 	[
 		check('email', 'Provide a valid email').isEmail()
 	], 
 	authController.userAuthentication
 );
 
-authRouter.get('/loggedin', 
+router.get('/loggedin', 
 	auth, 
 	authController.authenticatedUser
 );
 
-authRouter.post('/logout', authController.userLogout);
 
-
-module.exports = authRouter;
+module.exports = router;

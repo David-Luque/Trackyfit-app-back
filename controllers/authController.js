@@ -36,10 +36,10 @@ exports.signUp = async(req, res)=>{
     };
 
     jwt.sign(payload, process.env.SECRET, {
-      expiresIn: 7200 //2h
+      expiresIn: 3600 //1 hour
     }, (err, token)=>{
       if(err) throw err;
-      res.json(token);
+      res.json({ token });
     });
 
   } catch(err) {
@@ -50,26 +50,7 @@ exports.signUp = async(req, res)=>{
 };
 
 exports.userAuthentication = async (req, res)=>{
-  // passport.authenticate('local', (err, theUser, failureDetails) => {
-	// 	if (err) {
-	// 		res.status(500).json({ message: 'Something went wrong while authenticating user' });
-	// 		return;
-	// 	}
-
-	// 	if (!theUser) {
-	// 		res.status(401).json({ failureDetails });
-	// 		return;
-	// 	}
-
-	// 	req.login(theUser, (err) => {
-	// 		if (err) {
-	// 			res.status(500).json({ message: 'Session save went bad.' });
-	// 			return;
-	// 		}
-	// 		res.status(200).json(theUser);
-	// 	});
-	// })(req, res, next);
-
+  
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -79,6 +60,7 @@ exports.userAuthentication = async (req, res)=>{
 
   try {
     const user = await User.findOne({ email });
+    
     if(!user) {
       return res.status(400).json({ msg: 'User do not exist' });
     }
@@ -94,7 +76,7 @@ exports.userAuthentication = async (req, res)=>{
     }
     
     jwt.sign(payload, process.env.SECRET, {
-      expiresIn: '2h'
+      expiresIn: '1h'
     }, (err, token)=>{
       if(err) throw err;
       res.json({ token });
@@ -115,9 +97,4 @@ exports.authenticatedUser = async (req, res)=>{
     res.status(500).send({ msg: 'There was an error' });
   }
   
-};
-
-exports.userLogout = (req, res)=>{
-  req.logout();
-	res.status(200).json({ message: 'Log out success! ' });
 };
